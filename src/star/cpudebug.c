@@ -1263,12 +1263,14 @@ int cpudebug_interactive(
 		cpudebug_printf("cpu%d> ", cpun);
 		cpudebug_gets(inputstr, sizeof(inputstr));
 		cmd = inputstr;
-		while((tolower(*cmd) < 'a') && (tolower(*cmd) > 'z')) {
+//		while((tolower(*cmd) < 'a') && (tolower(*cmd) > 'z')) {
+		while((*cmd < 'a' && *cmd > 'z') || (*cmd < 'A' && *cmd > 'Z')) {
 			if(!(*cmd)) break;
 			cmd++;
 		}
 		if(!(*cmd)) continue;
-		*cmd = tolower(*cmd);
+//		*cmd = tolower(*cmd);
+		*cmd = (*cmd >= 'A' && *cmd <= 'Z') ? (*cmd | 0x20) : *cmd;
 		args = cmd + 1;
 		while((*args) && ((*args) < 32)) args++;
 		switch(*cmd) {

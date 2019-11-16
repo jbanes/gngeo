@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Copy executable and manual into the correct location for packaging
+cp src/gngeo ipkg/home/retrofw/emus/gngeo/gngeo.dge
+#cp README ipkg/home/retrofw/emus/gngeo/gngeo.man.txt
+cp gngeo.dat/gngeo_data.zip ipkg/home/retrofw/emus/gngeo/
+
+cd ipkg
+
+# Create the two tar files and then create an IPK archive
+tar -czvf control.tar.gz control conffiles
+tar -czvf data.tar.gz home
+ar rv gngeo.ipk control.tar.gz data.tar.gz debian-binary
+
+cd ..
+
+# Clean up after ourselves
+mv ipkg/gngeo.ipk .
+rm ipkg/control.tar.gz
+rm ipkg/data.tar.gz
+rm ipkg/home/retrofw/emus/gngeo/gngeo.dge
+#rm ipkg/home/retrofw/emus/gngeo/gngeo.man.txt
+rm ipkg/home/retrofw/emus/gngeo/gngeo_data.zip

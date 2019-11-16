@@ -214,9 +214,16 @@ int handle_pdep_event(SDL_Event *event) {
 	switch (event->type) {
 	case SDL_KEYDOWN:
 		switch (event->key.keysym.sym) {
+#ifdef DINGUX
+		case SDLK_HOME:
+		case SDLK_END:
+			return 1;
+			break;
+#else
 		case SDLK_ESCAPE:
 			return 1;
 			break;
+#endif
 		case SDLK_F3:
 			draw_message("Test Switch ON");
 			conf.test_switch = 1;

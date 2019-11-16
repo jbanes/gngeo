@@ -1,0 +1,10 @@
+Package: gngeo
+Version: 20191115
+Description: NeoGeo MVS/AES emulator
+Section: emus
+Priority: optional
+Maintainer: jbanes
+Architecture: mipsel
+Homepage: https://www.berlios.de/software/gngeo
+Depends:
+Source: https://github.com/jbanes/gngeo

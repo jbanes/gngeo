@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mkdir -p /home/retrofw/emus/gngeo/roms
+mkdir -p /home/retrofw/roms/neogeo
+

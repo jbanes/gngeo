@@ -1,0 +1,6 @@
+title=gngeo
+description=Neo Geo Emulator
+exec=/home/retrofw/emus/gngeo/gngeo.dge
+clock=600
+selectorfilter=.zip,.bin
+selectorelement=2

@@ -75,8 +75,8 @@ static char * default_p1control = "A=K281,B=K279,C=K278,D=K280,START=K308,COIN=K
 		"UP=K273,DOWN=K274,LEFT=K276,RIGHT=K275,MENU=K32";
 static char * default_p2control = "";
 #elif defined (DINGUX)
-static char * default_p1control = "A=K308,B=K306,C=K304,D=K32,START=K13,COIN=K9,"
-		"UP=K273,DOWN=K274,LEFT=K276,RIGHT=K275,MENU=K113";
+static char * default_p1control = "A=K308,B=K306,C=K304,D=K32,START=K13,COIN=K27,"
+		"UP=K273,DOWN=K274,LEFT=K276,RIGHT=K275,MENU=K279";
 static char * default_p2control = "";
 #elif defined (WII)
 static char *default_p1control = "A=J0B9,B=J0B10,C=J0B11,D=J0B12,START=J0B18,COIN=J0B17"
@@ -181,7 +181,8 @@ static CONF_ITEM * create_conf_item(const char *name, const char *help, char sho
 	static int val = 0x100;
 	CONF_ITEM *t = (CONF_ITEM*) calloc(1, sizeof (CONF_ITEM));
 
-	a = tolower((int) name[0]);
+//	a = tolower((int) name[0]);
+	a = (name[0] >= 'A' && name[0] <= 'Z') ? (name[0] | 0x20) : (int)name[0];
 
 	t->name = strdup(name);
 	t->help = strdup(help);
@@ -272,7 +273,8 @@ void cf_create_str_array_item(const char *name, const char *help, const char *hl
 
 CONF_ITEM* cf_get_item_by_name(const char *name) {
 	int i;
-	int a = tolower((int) name[0]);
+//	int a = tolower((int) name[0]);
+        int a = (name[0] >= 'A' && name[0] <= 'Z') ? (name[0] | 0x20) : (int)name[0];
 
 	for (i = 0; i < cf_hash[a].nb_item; i++) {
 		if (strcasecmp(cf_hash[a].conf[i]->name, name) == 0)
@@ -440,7 +442,7 @@ void cf_init(void) {
 	cf_create_string_item("p1control", "Player1 control configutation", "...", 0,
 			"A=K281,B=K279,C=K278,D=K280,START=K308,COIN=K306,UP=K273,DOWN=K274,LEFT=K276,RIGHT=K275,MENU=K113");
 	cf_create_string_item("p2control", "Player2 control configutation", "...", 0, "");
-#elif defined (DINGUX)
+#elif defined (DINGUX) 
 	cf_create_string_item("p1control", "Player1 control configutation", "...", 0,
 			"A=K308,B=K306,C=K304,D=K32,START=K13,COIN=K9,UP=K273,DOWN=K274,LEFT=K276,RIGHT=K275,MENU=K113");
 	cf_create_string_item("p2control", "Player2 control configutation", "...", 0, "");
@@ -527,11 +529,7 @@ int cf_save_option(char *filename, char *optname,int flags) {
 	CONF_ITEM *tosave; //cf_get_item_by_name(optname);
 
 	if (!conf_file) {
-#ifdef EMBEDDED_FS
-		int len = strlen("gngeorc") + strlen(ROOTPATH"conf/") + 1;
-		conf_file = (char *) alloca(len * sizeof (char));
-		sprintf(conf_file, ROOTPATH"conf/gngeorc");
-#elif __AMIGA__
+#ifdef __AMIGA__
 		int len = strlen("gngeorc") + strlen("/PROGDIR/data/") + 1;
 		conf_file = (char *) alloca(len * sizeof (char));
 		sprintf(conf_file, "/PROGDIR/data/gngeorc");
@@ -545,7 +543,7 @@ int cf_save_option(char *filename, char *optname,int flags) {
 	sprintf(conf_file_dst, "%s.t", conf_file);
 
 	if ((f_dst = fopen(conf_file_dst, "w")) == 0) {
-		//printf("Unable to open %s\n",conf_file);
+		printf("Unable to open %s\n",conf_file);
 		return GN_FALSE;
 	}
 	if (optname!=NULL) {
@@ -696,11 +694,7 @@ int cf_open_file(char *filename) {
 	CONF_ITEM *cf;
 
 	if (!conf_file) {
-#ifdef EMBEDDED_FS
-		int len = strlen("gngeorc") + strlen(ROOTPATH"conf/") + 1;
-		conf_file = (char *) alloca(len * sizeof (char));
-		sprintf(conf_file, ROOTPATH"conf/gngeorc");
-#elif __AMIGA__
+#ifdef __AMIGA__
 		int len = strlen("gngeorc") + strlen("/PROGDIR/data/") + 1;
 		conf_file = (char *) alloca(len * sizeof (char));
 		sprintf(conf_file, "/PROGDIR/data/gngeorc");
@@ -710,8 +704,8 @@ int cf_open_file(char *filename) {
 		sprintf(conf_file, "%s/.gngeo/gngeorc", getenv("HOME"));
 #endif
 	}
-	if ((f = fopen(conf_file, "rb")) == 0) {
-		//printf("Unable to open %s\n",conf_file);
+        if ((f = fopen(conf_file, "rb")) == 0) {
+		printf("Unable to open %s\n", conf_file);
 		return GN_FALSE;
 	}
 
@@ -753,7 +747,7 @@ int cf_open_file(char *filename) {
 					break;
 			}
 		} else {
-			/*printf("Unknow option %s\n",name);*/
+			printf("Unknown option %s\n",name);
 			/* unknow option...*/
 		}
 	}
