@@ -527,6 +527,8 @@ int cf_save_option(char *filename, char *optname,int flags) {
 	char val[255];
 	CONF_ITEM *cf;
 	CONF_ITEM *tosave; //cf_get_item_by_name(optname);
+        
+        struct stat fileinfo;
 
 	if (!conf_file) {
 #ifdef __AMIGA__
@@ -536,6 +538,14 @@ int cf_save_option(char *filename, char *optname,int flags) {
 #else /* POSIX */
 		int len = strlen("gngeorc") + strlen(getenv("HOME")) + strlen("/.gngeo/") + 1;
 		conf_file = (char *) alloca(len * sizeof (char));
+		sprintf(conf_file, "%s/.gngeo", getenv("HOME"));
+                
+                // Create the home directory if it doesn't exist
+                if(stat(conf_file, &fileinfo))
+                {
+                    mkdir(conf_file, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+                }
+                
 		sprintf(conf_file, "%s/.gngeo/gngeorc", getenv("HOME"));
 #endif
 	}
