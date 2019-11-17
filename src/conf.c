@@ -381,6 +381,33 @@ static int show_version(CONF_ITEM *self) {
 	return 0;
 }
 
+int exists(char *path)
+{
+    struct stat fileinfo;
+    
+    return (stat(path, &fileinfo) == 0);
+}
+
+char* getHomePath(char *subpath)
+{
+    int length = strlen(getenv("HOME")) + strlen(subpath) + 2; // Account for the / and the \0
+    char * path = (char *) malloc(length * sizeof (char));
+    
+    sprintf(path, "%s/%s", getenv("HOME"), subpath);
+    
+    return path;
+}
+
+int existsInHome(char *subpath)
+{
+    char *path = getHomePath(subpath);
+    int result = exists(path);
+    
+    free(path);
+    
+    return result;
+}
+
 void cf_init(void) {
 
 	cf_create_action_item("help", "Print this help and exit", 'h', print_help);
@@ -417,7 +444,29 @@ void cf_init(void) {
 
 	cf_create_string_item("country", "Set the contry to japan, asia, usa or europe", "...", 0, "europe");
 	cf_create_string_item("system", "Set the system to home, arcade or unibios", "...", 0, "arcade");
-#ifdef EMBEDDED_FS
+#ifdef DINGUX
+        if(existsInHome("roms")) 
+        {
+            if(!existsInHome("roms/neogeo")) mkdir(getHomePath("roms/neogeo"), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            
+            cf_create_string_item("rompath", "Tell gngeo where your roms are", "PATH", 'i', getHomePath("roms/neogeo"));
+        }
+        else if(exists("/media"))
+        {
+            cf_create_string_item("rompath", "Tell gngeo where your roms are", "PATH", 'i', "/media");
+        }
+        else if(exists(ROOTPATH"./roms"))
+        {
+            cf_create_string_item("rompath", "Tell gngeo where your roms are", "PATH", 'i', ROOTPATH"./roms");
+        }
+        else
+        {
+            cf_create_string_item("rompath", "Tell gngeo where your roms are", "PATH", 'i', getHomePath("."));
+        }
+        
+	cf_create_string_item("biospath", "Tell gngeo where your neogeo bios is", "PATH", 'B', ROOTPATH"./roms");
+	cf_create_string_item("datafile", "Tell gngeo where his ressource file is", "PATH", 'd', ROOTPATH"./gngeo_data.zip");
+#elif EMBEDDED_FS
 	cf_create_string_item("rompath", "Tell gngeo where your roms are", "PATH", 'i', ROOTPATH"./roms");
 	cf_create_string_item("biospath", "Tell gngeo where your neogeo bios is", "PATH", 'B', ROOTPATH"./roms");
 	cf_create_string_item("datafile", "Tell gngeo where his ressource file is", "PATH", 'd', ROOTPATH"./gngeo_data.zip");
@@ -527,8 +576,6 @@ int cf_save_option(char *filename, char *optname,int flags) {
 	char val[255];
 	CONF_ITEM *cf;
 	CONF_ITEM *tosave; //cf_get_item_by_name(optname);
-        
-        struct stat fileinfo;
 
 	if (!conf_file) {
 #ifdef __AMIGA__
@@ -538,15 +585,10 @@ int cf_save_option(char *filename, char *optname,int flags) {
 #else /* POSIX */
 		int len = strlen("gngeorc") + strlen(getenv("HOME")) + strlen("/.gngeo/") + 1;
 		conf_file = (char *) alloca(len * sizeof (char));
-		sprintf(conf_file, "%s/.gngeo", getenv("HOME"));
+		sprintf(conf_file, "%s/.gngeo/gngeorc", getenv("HOME"));
                 
                 // Create the home directory if it doesn't exist
-                if(stat(conf_file, &fileinfo))
-                {
-                    mkdir(conf_file, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-                }
-                
-		sprintf(conf_file, "%s/.gngeo/gngeorc", getenv("HOME"));
+                if(!existsInHome(".gngeo")) mkdir(getHomePath(".gngeo"), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 #endif
 	}
 	conf_file_dst = alloca(strlen(conf_file) + 4);
