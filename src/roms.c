@@ -2013,6 +2013,43 @@ int close_game(void) {
     return GN_TRUE;
 }
 
+char* getDirectory(char *path)
+{
+    char *subpath = strrchr(path, '/');
+    char *result;
+    
+    if(!subpath) return "";
+    
+    result = malloc(subpath - path + 1);
+    
+    strncpy(result, path, subpath - path);
+    result[subpath - path] = 0;
+    
+    return result;
+}
+
+char* getRomName(char *path)
+{
+    char *subpath = strrchr(path, '/');
+    char *dot;
+    char *result;
+    
+    if(!subpath) return path;
+    
+    subpath++;
+    
+    dot = strrchr(subpath, '.');
+    
+    if(!dot) return path;
+    
+    result = malloc(dot - subpath + 1);
+    
+    strncpy(result, subpath, dot - subpath);
+    result[dot - subpath] = 0;
+    
+    return result;
+}
+
 int load_game_config(char *rom_name) {
 	char *gpath;
 	char *drconf;
@@ -2045,7 +2082,13 @@ int load_game_config(char *rom_name) {
 
 int init_game(char *rom_name) {
 //printf("AAA Blitter %s effect %s\n",CF_STR(cf_get_item_by_name("blitter")),CF_STR(cf_get_item_by_name("effect")));
+#ifdef DINGUX
+    strcpy(CF_STR(cf_get_item_by_name("rompath")), getDirectory(rom_name));
+    rom_name=getRomName(rom_name);
 
+    printf("Loading %s from %s\n", rom_name, CF_STR(cf_get_item_by_name("rompath")));
+#endif    
+    
 	load_game_config(rom_name);
 	/* reinit screen if necessary */
 	//screen_change_blitter_and_effect(NULL,NULL);

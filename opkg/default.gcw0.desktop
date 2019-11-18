@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=GnGeo
+Comment=NeoGeo MVS/AES emulator
+Exec=gngeo.dge
+Terminal=false
+Type=Game
+StartupNotify=true
+Icon=gngeo32
+Categories=emulators;
+Version=201911178
+X-OD-Manual=gngeo.man.txt
+X-OD-NeedsDownscaling=true

@@ -21,3 +21,15 @@ rm ipkg/data.tar.gz
 rm ipkg/home/retrofw/emus/gngeo/gngeo.dge
 rm ipkg/home/retrofw/emus/gngeo/gngeo.man.txt
 rm ipkg/home/retrofw/emus/gngeo/gngeo_data.zip
+
+# Create OPK package
+cp src/gngeo opkg/gngeo.dge
+cp README opkg/gngeo.man.txt
+cp gngeo.dat/gngeo_data.zip opkg/
+
+mksquashfs opkg gngeo.opk -noappend -no-xattrs
+
+# Clean up after ourselves
+rm opkg/gngeo.dge
+rm opkg/gngeo.man.txt
+rm opkg/gngeo_data.zip 

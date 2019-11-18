@@ -1,4 +1,4 @@
-title=gngeo
+title=GnGeo
 description=Neo Geo Emulator
 exec=/home/retrofw/emus/gngeo/gngeo.dge
 clock=600

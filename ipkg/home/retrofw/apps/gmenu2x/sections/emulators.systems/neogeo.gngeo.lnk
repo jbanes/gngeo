@@ -1,0 +1,7 @@
+title=NeoGeo
+description=Neo Geo
+exec=/home/retrofw/emus/gngeo/gngeo.dge
+clock=600
+selectordir=/home/retrofw/roms/neogeo
+selectorfilter=.zip,.bin,.gno
+selectorelement=2
