@@ -6,6 +6,7 @@
 #include "SDL_endian.h"
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #if defined(HAVE_LIBZ) && defined (HAVE_MMAP)
 #include <zlib.h>
 #endif
@@ -69,6 +70,10 @@ SDL_Surface *state_img_tmp;
 void cpu_68k_mkstate(gzFile gzf,int mode);
 void cpu_z80_mkstate(gzFile gzf,int mode);
 void ym2610_mkstate(gzFile gzf,int mode);
+
+extern int exists(char *path);
+extern char* getHomePath(char *subpath);
+
 #if 0
 void create_state_register(ST_MODULE_TYPE module,const char *reg_name,
 			   Uint8 num,void *data,int size,ST_DATA_TYPE type) {
@@ -148,11 +153,14 @@ void swap_buf32_if_need(Uint8 src_endian,Uint32* buf,Uint32 size)
     }
 }
 #endif
+
 Uint32 how_many_slot(char *game) {
 	char *st_name;
 	FILE *f;
 //    char *st_name_len;
-#ifdef EMBEDDED_FS
+#ifdef DINGUX
+	char *gngeo_dir=getHomePath(".gngeo/save/");
+#elif EMBEDDED_FS
 	char *gngeo_dir=ROOTPATH"save/";
 #else
 	char *gngeo_dir=get_gngeo_dir();
@@ -173,7 +181,9 @@ Uint32 how_many_slot(char *game) {
 static gzFile open_state(char *game,int slot,int mode) {
 	char *st_name;
 //    char *st_name_len;
-#ifdef EMBEDDED_FS
+#ifdef DINGUX
+	char *gngeo_dir=getHomePath(".gngeo/save/");
+#elif EMBEDDED_FS
 	char *gngeo_dir=ROOTPATH"save/";
 #else
 	char *gngeo_dir=get_gngeo_dir();
@@ -183,6 +193,8 @@ static gzFile open_state(char *game,int slot,int mode) {
 	gzFile gzf;
 	int  flags;
 	Uint32 rate;
+        
+    if(!exists(gngeo_dir)) mkdir(gngeo_dir, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
     st_name=(char*)alloca(strlen(gngeo_dir)+strlen(game)+5);
     sprintf(st_name,"%s%s.%03d",gngeo_dir,game,slot);

@@ -1,7 +1,4 @@
 #!/bin/sh
 
+# Make sure that the default directory gets created
 mkdir -p /home/retrofw/emus/gngeo/roms
-mkdir -p /home/retrofw/roms/neogeo
-mkdir -p /home/retrofw/.gngeo
-
-echo "ROM directories created."

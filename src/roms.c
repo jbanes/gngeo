@@ -29,6 +29,9 @@
 #include "ym2610-940/940shared.h"
 #endif
 
+extern int exists(char *path);
+extern char* getHomePath(char *subpath);
+
 /* Prototype */
 void kof98_decrypt_68k(GAME_ROMS *r);
 void kof99_decrypt_68k(GAME_ROMS *r);
@@ -1908,7 +1911,9 @@ void dr_free_roms(GAME_ROMS *r) {
 void open_nvram(char *name) {
     char *filename;
     size_t totread = 0;
-#ifdef EMBEDDED_FS
+#ifdef DINGUX
+	char *gngeo_dir=getHomePath(".gngeo/save/");
+#elif EMBEDDED_FS
     const char *gngeo_dir = ROOTPATH"save/";
 #elif defined(__AMIGA__)
     const char *gngeo_dir = "/PROGDIR/save/";
@@ -1928,11 +1933,15 @@ void open_nvram(char *name) {
 
 }
 
+extern char* getHomePath(char *subpath);
+
 /* TODO: multiple memcard */
 void open_memcard(char *name) {
     char *filename;
     size_t totread = 0;
-#ifdef EMBEDDED_FS
+#ifdef DINGUX
+	char *gngeo_dir=getHomePath(".gngeo/save/");
+#elif EMBEDDED_FS
     const char *gngeo_dir = ROOTPATH"save/";
 #elif defined(__AMIGA__)
     const char *gngeo_dir = "/PROGDIR/save/";
@@ -1953,7 +1962,9 @@ void open_memcard(char *name) {
 
 void save_nvram(char *name) {
     char *filename;
-#ifdef EMBEDDED_FS
+#ifdef DINGUX
+	char *gngeo_dir=getHomePath(".gngeo/save/");
+#elif EMBEDDED_FS
     const char *gngeo_dir = ROOTPATH"save/";
 #elif defined(__AMIGA__)
     const char *gngeo_dir = strdup("/PROGDIR/save/");
@@ -1983,7 +1994,9 @@ void save_nvram(char *name) {
 
 void save_memcard(char *name) {
     char *filename;
-#ifdef EMBEDDED_FS
+#ifdef DINGUX
+	char *gngeo_dir=getHomePath(".gngeo/save/");
+#elif EMBEDDED_FS
     const char *gngeo_dir = ROOTPATH"save/";
 #elif defined(__AMIGA__)
     const char *gngeo_dir = strdup("/PROGDIR/save/");
