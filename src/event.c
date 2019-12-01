@@ -210,7 +210,25 @@ int handle_pdep_event(SDL_Event *event) {
 	}
 }
 #else /* Default */
+
+#ifdef DINGUX
+int select_pressed = 0;
+int start_pressed = 0;
+#endif
+
 int handle_pdep_event(SDL_Event *event) {
+    
+#ifdef DINGUX
+    if(event->key.keysym.sym == SDLK_ESCAPE) select_pressed = (event->type == SDL_KEYDOWN);
+    if(event->key.keysym.sym == SDLK_RETURN) start_pressed = (event->type == SDL_KEYDOWN);
+    
+    if(select_pressed && start_pressed) 
+    {
+        select_pressed = 0;
+        start_pressed = 0;
+        return 1;
+    }
+#endif
 	switch (event->type) {
 	case SDL_KEYDOWN:
 		switch (event->key.keysym.sym) {
