@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=NeoGeo
+Comment=NeoGeo MVS/AES emulator
+Exec=gngeo.dge
+Terminal=false
+Type=Game
+StartupNotify=true
+Icon=neogeo
+Categories=emulators.systems;
+Version=20191116
+X-OD-Manual=gngeo.man.txt
+X-OD-Selector=/home/retrofw/roms/neogeo
+X-OD-Filter=.zip,.bin,.gno
+X-OD-Alias=aliases.txt

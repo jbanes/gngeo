@@ -5,3 +5,4 @@ clock=600
 selectordir=/home/retrofw/roms/neogeo
 selectorfilter=.zip,.bin,.gno
 selectorelement=2
+selectoraliases=/home/retrofw/emus/gngeo/aliases.txt
