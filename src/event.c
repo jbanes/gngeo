@@ -168,6 +168,14 @@ int init_event(void) {
 	}
 	create_joymap_from_string(1,CF_STR(cf_get_item_by_name("p1control")));
 	create_joymap_from_string(2,CF_STR(cf_get_item_by_name("p2control")));
+        
+#ifdef DINGUX
+        // It's unclear how to make both the gamepada and keycodes work together in the settings. Using this hardcoded section
+        // to make the RS-07 work. The keycodes work for the built-in controls and the settings below work for the gamepads.
+        create_joymap_from_string(1,"A=J0B2,B=J0B3,C=J0B0,D=J0B1,START=J0B9,COIN=J0B8,UPDOWN=J0a1,LEFTRIGHT=J0A0,JOY=J0H0");
+        create_joymap_from_string(2,"A=J1B2,B=J1B3,C=J1B0,D=J1B1,START=J1B9,COIN=J1B8,UPDOWN=J1a1,LEFTRIGHT=J1A0,JOY=J1H0");
+#endif
+        
 	return GN_TRUE;
 }
 #ifdef GP2X
@@ -389,13 +397,13 @@ int handle_event(void) {
 		{
 			int player=jmap->jbutton[event.jbutton.which][event.jbutton.button].player;
 			int map=jmap->jbutton[event.jbutton.which][event.jbutton.button].map;
-			//printf("player %d map %d\n",player,map);
+//			printf("player %d map %d\n",player,map);
 			if (player) {
 				player-=1;
 				joy_state[player][map]=1;
 			}
 			
-			//printf("SDL_JOYBUTTONDOWN %d %d\n",event.jbutton.which,event.jbutton.button);
+//			printf("SDL_JOYBUTTONDOWN %d %d\n",event.jbutton.which,event.jbutton.button);
 		}
 			break;
 		case SDL_JOYBUTTONUP:
