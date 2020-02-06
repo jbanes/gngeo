@@ -56,6 +56,7 @@ kof98=The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream mat
 kof99=The King of Fighters '99 - Millennium Battle (NGM-2510)
 kotm2=King of the Monsters 2 - The Next Thing (NGM-039)(NGH-039)
 kotm=King of the Monsters (set 1)
+ironclad=Ironclad / Saurus
 lastblad=The Last Blade / Bakumatsu Roman - Gekka no Kenshi (NGM-2340)
 lastbld2=The Last Blade 2 / Bakumatsu Roman - Dai Ni Maku Gekka no Kenshi (NGM-2430)(NGH-2430)
 lbowling=League Bowling (NGM-019)(NGH-019)
