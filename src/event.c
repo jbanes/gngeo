@@ -274,6 +274,28 @@ int handle_pdep_event(SDL_Event *event) {
 #define EVGAME 1
 #define EVMENU 2
 
+void handle_hotkey(int player, int mask) {
+	if (player == 1) {
+	    if (mask & 1)
+	        memory.intern_p1 &= 0xEF;
+	    if (mask & 2)
+	        memory.intern_p1 &= 0xDF;
+	    if (mask & 4)
+	        memory.intern_p1 &= 0xBF;
+	    if (mask & 8)
+	        memory.intern_p1 &= 0x7F;
+	} else if (player == 2) {
+	    if (mask & 1)
+	        memory.intern_p2 &= 0xEF;
+	    if (mask & 2)
+	        memory.intern_p2 &= 0xDF;
+	    if (mask & 4)
+	        memory.intern_p2 &= 0xBF;
+	    if (mask & 8)
+	        memory.intern_p2 &= 0x7F;
+	}
+}
+
 int handle_event(void) {
 	SDL_Event event;
 //	int i;
@@ -470,6 +492,14 @@ int handle_event(void) {
 	    memory.intern_p1 &= 0xBF;	// C
 	if (joy_state[0][GN_D])
 	    memory.intern_p1 &= 0x7F;	// D
+	if (joy_state[0][GN_HOTKEY1])
+	     handle_hotkey(1, conf.p1_hotkey[0]);
+	if (joy_state[0][GN_HOTKEY2])
+	     handle_hotkey(1, conf.p1_hotkey[1]);
+	if (joy_state[0][GN_HOTKEY3])
+	     handle_hotkey(1, conf.p1_hotkey[2]);
+	if (joy_state[0][GN_HOTKEY4])
+	     handle_hotkey(1, conf.p1_hotkey[3]);
 
 	/* Update P1 */
 	memory.intern_p2 = 0xFF;
@@ -489,6 +519,14 @@ int handle_event(void) {
 	    memory.intern_p2 &= 0xBF;	// C
 	if (joy_state[1][GN_D])
 	    memory.intern_p2 &= 0x7F;	// D
+	if (joy_state[1][GN_HOTKEY1])
+	     handle_hotkey(2, conf.p2_hotkey[0]);
+	if (joy_state[1][GN_HOTKEY2])
+	     handle_hotkey(2, conf.p2_hotkey[1]);
+	if (joy_state[1][GN_HOTKEY3])
+	     handle_hotkey(2, conf.p2_hotkey[2]);
+	if (joy_state[1][GN_HOTKEY4])
+	     handle_hotkey(2, conf.p2_hotkey[3]);
 
 #if defined(GP2X) || defined(WIZ)
 	if (joy_state[0][GN_HOTKEY1] && joy_state[0][GN_HOTKEY2]
