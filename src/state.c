@@ -61,10 +61,13 @@ static int endian_flag=0x0;
 
 #endif
 
+Uint8 state_version;
+
 //static ST_REG *reglist;
 //static ST_MODULE st_mod[ST_MODULE_END];
 //static SDL_Rect buf_rect    =	{24, 16, 304, 224};
 //static SDL_Rect screen_rect =	{ 0,  0, 304, 224};
+SDL_Surface *state_img;
 SDL_Surface *state_img_tmp;
 
 void cpu_68k_mkstate(gzFile gzf,int mode);

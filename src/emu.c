@@ -55,6 +55,13 @@
 #include "menu.h"
 #include "event.h"
 
+Uint8 key[SDLK_LAST];
+Uint8 *joy_button[2];
+Sint32 *joy_axe[2];
+Uint32 joy_numaxes[2];
+
+gngeo_conf conf;
+
 int frame;
 int nb_interlace = 256;
 int current_line;

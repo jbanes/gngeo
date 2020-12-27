@@ -41,8 +41,8 @@ typedef struct JOYMAP {
 	struct BUT_MAP **jhat;
 }JOYMAP;
 
-JOYMAP *jmap;
-Uint8 joy_state[2][GN_MAX_KEY];
+extern JOYMAP *jmap;
+extern Uint8 joy_state[2][GN_MAX_KEY];
 
 
 int init_event(void);
