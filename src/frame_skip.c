@@ -34,6 +34,8 @@
 #define uclock_t Uint32
 #endif
 
+char fps_str[32];
+
 #define TICKS_PER_SEC 1000000UL
 //#define CPU_FPS 60
 //static int CPU_FPS=60;

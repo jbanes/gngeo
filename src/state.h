@@ -81,7 +81,7 @@ typedef struct NEOGEO_STATE {
 }NEOGEO_STATE;
 #endif
 
-SDL_Surface *state_img;
+extern SDL_Surface *state_img;
 
 #define STREAD  0
 #define STWRITE 1
@@ -90,7 +90,7 @@ SDL_Surface *state_img;
 #define ST_VER2 2
 #define ST_VER3 3
 
-Uint8 state_version;
+extern Uint8 state_version;
 
 #if 0
 void create_state_register(ST_MODULE_TYPE module,const char *reg_name,Uint8 num,void *data,int size,ST_DATA_TYPE type);

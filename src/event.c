@@ -13,6 +13,9 @@
 #include "gnutil.h"
 #include "messages.h"
 
+JOYMAP *jmap;
+Uint8 joy_state[2][GN_MAX_KEY];
+
 static int get_mapid(char *butid) {
 	printf("Get mapid %s\n",butid);
 	if (!strcmp(butid,"A")) return GN_A;

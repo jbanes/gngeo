@@ -17,19 +17,19 @@ extern RGB2YUV rgb2yuv[65536];
 
 void init_rgb2yuv_table(void);
 
-SDL_Surface *screen;
-SDL_Surface *buffer, *sprbuf, *fps_buf, *scan, *fontbuf;
+extern SDL_Surface *screen;
+extern SDL_Surface *buffer, *sprbuf, *fps_buf, *scan, *fontbuf;
 //SDL_Surface *triplebuf[2];
 
-SDL_Rect visible_area;
+extern SDL_Rect visible_area;
 
-int yscreenpadding;
+extern int yscreenpadding;
 
-Uint8 interpolation;
-Uint8 nblitter;
-Uint8 neffect;
-Uint8 scale;
-Uint8 fullscreen;
+extern Uint8 interpolation;
+extern Uint8 nblitter;
+extern Uint8 neffect;
+extern Uint8 scale;
+extern Uint8 fullscreen;
 
 Uint8 get_effect_by_name(char *name);
 Uint8 get_blitter_by_name(char *name);
